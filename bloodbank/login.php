@@ -32,22 +32,22 @@ if (isset($_SESSION['hid'])) {
 
     <div class="tab-content">
        <div class="tab-pane container active" id="hospitals">
-        <form action="file/hospitalLogin.php" method="post">
+        <form action="file/hospitalLogin.php" method="post" enctype="multipart/form-data" onsubmit="doSubmit(1);">
           <label class="text-muted font-weight-bold" class="text-muted font-weight-bold">Hospital Email</label>
           <input type="email" name="hemail" placeholder="Hospital Email" class="form-control mb-4">
           <label class="text-muted font-weight-bold" class="text-muted font-weight-bold">Hospital Password</label>
-          <input type="password" name="hpassword" placeholder="Hospital Password" class="form-control mb-4">
+          <input type="password" name="hpassword" id="hpassword" placeholder="Hospital Password" class="form-control mb-4">
           <input type="submit" name="hlogin" value="Login" class="btn btn-primary btn-block mb-4">
         </form>
        </div>
 
 
       <div class="tab-pane container fade" id="receivers">
-         <form action="file/receiverLogin.php" method="post">
+         <form action="file/receiverLogin.php" method="post" enctype="multipart/form-data" onsubmit="doSubmit(2);">
           <label class="text-muted font-weight-bold" class="text-muted font-weight-bold">Receiver Email</label>
           <input type="email" name="remail" placeholder="Receiver Email" class="form-control mb-4">
           <label class="text-muted font-weight-bold" class="text-muted font-weight-bold">Receiver Password</label>
-          <input type="password" name="rpassword" placeholder="Receiver Password" class="form-control mb-4">
+          <input type="password" name="rpassword" id="rpassword" placeholder="Receiver Password" class="form-control mb-4">
           <input type="submit" name="rlogin" value="Login" class="btn btn-primary btn-block mb-4">
         </form>
       </div>
@@ -58,6 +58,21 @@ if (isset($_SESSION['hid'])) {
 </div>
 </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script>
+    function doSubmit(x){
+        if(x == 1){
+            var hash = CryptoJS.SHA3(document.getElementById("hpassword").value, {outputLength: 512})
+            document.getElementById("hpassword").value = hash;
+            return true;
+        }
+        if(x == 2){
+            var hash = CryptoJS.SHA3(document.getElementById("rpassword").value, {outputLength: 512})
+            document.getElementById("rpassword").value = hash;
+            return true;
+        }
+    }
+</script>
 <?php require 'footer.php' ?>
 </body>
 </html>
